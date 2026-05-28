@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, redirect
 from datetime import datetime
 import sqlite3
+import os
 
 app = Flask(__name__)
+
+DB = 'empleados.db'
 
 # CREAR BASE DE DATOS
 def init_db():
 
-    conn = sqlite3.connect('empleados.db')
+    conn = sqlite3.connect(DB)
 
     cursor = conn.cursor()
 
@@ -30,7 +33,7 @@ init_db()
 @app.route('/')
 def index():
 
-    conn = sqlite3.connect('empleados.db')
+    conn = sqlite3.connect(DB)
 
     cursor = conn.cursor()
 
@@ -50,7 +53,7 @@ def entrada():
 
     hora_entrada = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-    conn = sqlite3.connect('empleados.db')
+    conn = sqlite3.connect(DB)
 
     cursor = conn.cursor()
 
@@ -68,7 +71,7 @@ def entrada():
 @app.route('/salida/<int:id>')
 def salida(id):
 
-    conn = sqlite3.connect('empleados.db')
+    conn = sqlite3.connect(DB)
 
     cursor = conn.cursor()
 
@@ -113,4 +116,5 @@ def salida(id):
     return redirect('/')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
