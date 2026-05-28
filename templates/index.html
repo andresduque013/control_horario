@@ -54,11 +54,11 @@
                 <thead>
 
                     <tr>
-                        <th>#</th>
+                        <th>ID</th>
                         <th>Empleado</th>
                         <th>Hora Entrada</th>
                         <th>Hora Salida</th>
-                        <th>Total Trabajado</th>
+                        <th>Total</th>
                         <th>Acción</th>
                     </tr>
 
@@ -70,39 +70,25 @@
 
                     <tr>
 
-                        <td>{{ loop.index0 }}</td>
+                        <td>{{ r[0] }}</td>
 
-                        <td>{{ r.empleado }}</td>
+                        <td>{{ r[1] }}</td>
+
+                        <td>{{ r[2] }}</td>
 
                         <td>
-                            {{ r.entrada.strftime('%H:%M:%S') }}
+                            {{ r[3] if r[3] else 'Trabajando...' }}
+                        </td>
+
+                        <td>
+                            {{ r[4] if r[4] else '-' }}
                         </td>
 
                         <td>
 
-                            {% if r.salida %}
-                                {{ r.salida.strftime('%H:%M:%S') }}
-                            {% else %}
-                                Trabajando...
-                            {% endif %}
+                            {% if not r[3] %}
 
-                        </td>
-
-                        <td>
-
-                            {% if r.total %}
-                                {{ r.total }}
-                            {% else %}
-                                -
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-
-                            {% if not r.salida %}
-
-                            <a href="/salida/{{ loop.index0 }}"
+                            <a href="/salida/{{ r[0] }}"
                                class="btn btn-danger btn-sm">
                                 Registrar Salida
                             </a>
